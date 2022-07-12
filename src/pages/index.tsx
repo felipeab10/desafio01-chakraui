@@ -2,11 +2,28 @@ import { Divider, Flex, Grid, GridItem, Heading, Image, SimpleGrid, Stack, Text 
 import Banner from '../components/Home/Banner'
 import Header from '../components/Home/Header'
 import { SwiperComponent } from '../components/Home/SwiperComponent';
-
+import axios from 'axios';
 import { TravelType } from '../components/Home/TravelType';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
+interface continentData {
+  description: string;
+  id: number;
+  image: string;
+  name: string;
+}
 
 export default function Home() {
+  const [continents, setContinents] = useState<continentData[]>([]);
+
+  useEffect(() => {
+    axios.get('/api/getContinents')
+      .then((resp) => {
+        setContinents(resp.data.continents);
+
+      })
+  }, []);
   return (
     <Flex
       w="100vw"
@@ -61,7 +78,7 @@ export default function Home() {
           w="100vw"
           maxW={1240}
         >
-          <SwiperComponent />
+          <SwiperComponent continents={continents} />
         </Flex>
       </Stack>
     </Flex>

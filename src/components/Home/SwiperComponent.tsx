@@ -1,9 +1,22 @@
 import { Navigation, Pagination, Scrollbar } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css/bundle';
-import { Flex, Heading, Image } from '@chakra-ui/react';
+import { Flex, Heading, Image, Link } from '@chakra-ui/react';
+import { Link as NextLink } from 'next/link';
 
-export function SwiperComponent() {
+interface continentData {
+    description: string;
+    id: number;
+    image: string;
+    name: string;
+}
+interface SwiperComponentProps {
+    continents: continentData[];
+}
+
+
+
+export function SwiperComponent({ continents }: SwiperComponentProps) {
     return (
         <Swiper
             centeredSlides={true}
@@ -19,86 +32,31 @@ export function SwiperComponent() {
             onSlideChange={() => console.log('slide change')}
             onSwiper={(swiper) => console.log(swiper)}
         >
-            <SwiperSlide tag="div" >
-                <Flex
-                    justify="center"
-                    align='center'
-                    backgroundImage="url(/images/northamerica.jpg)"
-                    backgroundPosition="center"
-                    backgroundSize="cover"
-                    backgroundRepeat="no-repeat"
-                    height="450px"
-                    flexDirection="column"
-                >
-                    <Heading fontSize="5xl" color="#DADADA">America do norte</Heading>
-                    <Heading fontSize="2xl" color="#DADADA">Cada bairro oferece algo diferente, do moderno Brooklyn ao elegante Manhattan..</Heading>
-                </Flex>
+            {continents?.map(continent => (
+                <SwiperSlide tag="div" key={continent.id}>
+                    <Flex
+                        justify="center"
+                        align='center'
+                        backgroundImage={`url(${continent.image})`}
+                        backgroundPosition="center"
+                        backgroundSize="cover"
+                        backgroundRepeat="no-repeat"
+                        height="450px"
+                        flexDirection="column"
+                    >
+                        <Link as={NextLink} href={`/continent/${continent.id}`}>
+                            <Heading fontSize="5xl" color="#DADADA">{continent.name}</Heading>
+                        </Link>
+                        <Link as={NextLink} href={`/continent/${continent.id}`}>
+                            <Heading fontSize="2xl" color="#DADADA">{continent.description}</Heading>
+                        </Link>
 
-            </SwiperSlide>
-            <SwiperSlide tag="div" >
-                <Flex
-                    justify="center"
-                    align='center'
-                    backgroundImage="url(/images/sulofamerica.jpg)"
-                    backgroundPosition="center"
-                    backgroundSize="cover"
-                    backgroundRepeat="no-repeat"
-                    height="450px"
-                    flexDirection="column"
-                >
-                    <Heading fontSize="5xl" color="#DADADA">America do sul</Heading>
-                    <Heading fontSize="2xl" color="#DADADA">Praias lindas, e pessoas muito animada</Heading>
-                </Flex>
 
-            </SwiperSlide>
-            <SwiperSlide tag="div" >
-                <Flex
-                    justify="center"
-                    align='center'
-                    backgroundImage="url(/images/asia.jpg)"
-                    backgroundPosition="center"
-                    backgroundSize="cover"
-                    backgroundRepeat="no-repeat"
-                    height="450px"
-                    flexDirection="column"
-                >
-                    <Heading fontSize="5xl" color="#DADADA">Ásia</Heading>
-                    <Heading fontSize="2xl" color="#DADADA">Xangai é um centro financeiro global repleto de arranha-céus.</Heading>
-                </Flex>
+                    </Flex>
 
-            </SwiperSlide>
-            <SwiperSlide tag="div" >
-                <Flex
-                    justify="center"
-                    align='center'
-                    backgroundImage="url(/images/europa.png)"
-                    backgroundRepeat="no-repeat"
-                    backgroundSize="cover"
-                    backgroundPosition="center"
-                    height="450px"
-                    flexDirection="column"
-                >
-                    <Heading fontSize="5xl" color="#DADADA">Europa</Heading>
-                    <Heading fontSize="2xl" color="#DADADA">O continente mais antigo.</Heading>
-                </Flex>
+                </SwiperSlide>
+            ))}
 
-            </SwiperSlide>
-            <SwiperSlide tag="div" >
-                <Flex
-                    justify="center"
-                    align='center'
-                    backgroundImage="url(/images/oceania.jpg)"
-                    backgroundRepeat="no-repeat"
-                    backgroundSize="cover"
-                    backgroundPosition="center"
-                    height="450px"
-                    flexDirection="column"
-                >
-                    <Heading fontSize="5xl" color="#DADADA">Oceania</Heading>
-                    <Heading fontSize="2xl" color="#DADADA">O termo Oceania foi criado em 1831 pelo explorador francês Dumont d'Urville.</Heading>
-                </Flex>
-
-            </SwiperSlide>
 
         </Swiper>
     )
